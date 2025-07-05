@@ -1,20 +1,88 @@
-# Welcome to your Expo app 👋
+# SolveMe - 悩み相談チャットアプリ
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+React Native (Expo) で作成された、ユーザーが悩みを投稿し、他のユーザーが回答できるコミュニティアプリです。
 
-## Get started
+## � 実装済み機能
 
-1. Install dependencies
+### ✅ 認証機能
 
-   ```bash
-   npm install
-   ```
+- メールアドレス・パスワードによる新規登録
+- ログイン機能
+- ログアウト機能
+- Firebase Authentication 連携
+- 認証状態の永続化
 
-2. Start the app
+## 🔄 今後実装予定の機能
 
-   ```bash
-   npx expo start
-   ```
+- 悩みの投稿機能
+- 悩みの一覧表示・閲覧機能
+- 回答機能
+- ベストアンサー選定機能
+- カテゴリ別フィルター
+- 評価システム
+- プッシュ通知
+- プロフィール管理
+- 収益化機能（トップ表示）
+
+## 📱 セットアップ手順
+
+### 1. 依存関係のインストール
+
+```bash
+npm install
+```
+
+### 2. Firebase の設定
+
+1. [Firebase Console](https://console.firebase.google.com/) でプロジェクトを作成
+2. Authentication と Firestore を有効化
+3. `config/firebase.ts` の設定情報を更新
+
+詳細は `FIREBASE_SETUP.md` を参照してください。
+
+### 3. アプリの起動
+
+```bash
+npm start
+```
+
+## 🛠 技術スタック
+
+- **フロントエンド**: React Native + Expo
+- **バックエンド**: Firebase (Authentication + Firestore)
+- **言語**: TypeScript
+- **ナビゲーション**: Expo Router
+
+## 📁 プロジェクト構造
+
+```
+├── app/                    # Expo Router の画面
+├── components/            # 再利用可能なコンポーネント
+│   ├── auth/             # 認証関連コンポーネント
+│   └── ui/              # UI コンポーネント
+├── config/               # Firebase 設定
+├── contexts/             # React Context
+├── services/             # API サービス
+├── utils/               # ユーティリティ関数
+└── assets/              # 画像・フォントなどのアセット
+```
+
+## 🔧 開発
+
+### 認証フロー
+
+1. アプリ起動時に認証状態をチェック
+2. 未認証の場合：ログイン/新規登録画面を表示
+3. 認証済みの場合：メインアプリを表示
+
+### Firebase 設定
+
+- Authentication: メール/パスワード認証
+- Firestore: ユーザープロフィール、投稿、回答データの保存
+
+## 📄 ライセンス
+
+MIT License
 
 In the output, you'll find options to open the app in a
 
