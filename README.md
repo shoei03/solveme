@@ -1,4 +1,27 @@
-# SolveMe - 悩み相談チャットアプリ
+# So## 🚀 実装済み機能
+
+### ✅ 認証機能
+
+- メールアドレス・パスワードによる新規登録
+- ログイン機能
+- ログアウト機能
+- Firebase Authentication 連携
+- 認証状態の永続化
+
+### ✅ バリデーション機能
+
+- リアルタイムフォームバリデーション
+- パスワード強度評価
+- カスタムバリデーションルール
+- 日本語エラーメッセージ
+- 再利用可能なバリデーションコンポーネント
+
+### ✅ 品質管理
+
+- TypeScript 型チェック
+- ESLint 設定
+- ビルドパイプライン
+- CI/CD 対応スクリプトみ相談チャットアプリ
 
 React Native (Expo) で作成された、ユーザーが悩みを投稿し、他のユーザーが回答できるコミュニティアプリです。
 
@@ -44,6 +67,32 @@ npm install
 
 ```bash
 npm start
+```
+
+### 4. 開発・ビルドコマンド
+
+```bash
+# 開発サーバー起動
+npm start
+
+# 特定プラットフォームで起動
+npm run android
+npm run ios
+npm run web
+
+# ビルド
+npm run build
+npm run build:web
+
+# 品質チェック
+npm run lint          # ESLint
+npm run lint:fix      # ESLint（自動修正）
+npm run type-check    # TypeScript型チェック
+npm test              # 型チェック + Lint
+
+# CI/CD用
+npm run prebuild      # ビルド前チェック
+npm run precommit     # コミット前チェック
 ```
 
 ## 🛠 技術スタック

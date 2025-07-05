@@ -1,42 +1,55 @@
-import React, { useState } from "react";
+import React from "react";
 import {
   Alert,
   KeyboardAvoidingView,
   Platform,
   ScrollView,
   StyleSheet,
-  Text,
-  TextInput,
   TouchableOpacity,
   View,
 } from "react-native";
+import { useForm } from "../../hooks/useForm";
 import { authService } from "../../services/authService";
+import { validateEmail } from "../../utils/validation";
+import { ThemedText } from "../ThemedText";
+import { ValidatedInput } from "../ui/ValidatedInput";
 
 interface LoginScreenProps {
   onToggleMode: () => void;
 }
 
 export const LoginScreen: React.FC<LoginScreenProps> = ({ onToggleMode }) => {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [loading, setLoading] = useState(false);
+  const form = useForm({
+    initialValues: {
+      email: "",
+      password: "",
+    },
+    validationRules: {
+      email: { required: true },
+      password: { required: true },
+    },
+    onSubmit: async (values) => {
+      // 基本的なバリデーション
+      const emailValidation = validateEmail(values.email);
 
-  const handleLogin = async () => {
-    if (!email || !password) {
-      Alert.alert("エラー", "メールアドレスとパスワードを入力してください");
-      return;
-    }
+      if (!emailValidation.isValid) {
+        form.setError("email", emailValidation.error!);
+        return;
+      }
 
-    setLoading(true);
-    try {
-      await authService.signIn(email, password);
-      // ログイン成功時の処理はAuthContextで自動的に処理される
-    } catch (error: any) {
-      Alert.alert("ログインエラー", error.message);
-    } finally {
-      setLoading(false);
-    }
-  };
+      if (!values.password) {
+        form.setError("password", "パスワードを入力してください");
+        return;
+      }
+
+      try {
+        await authService.signIn(values.email, values.password);
+        // ログイン成功時の処理はAuthContextで自動的に処理される
+      } catch (error: any) {
+        Alert.alert("ログインエラー", error.message);
+      }
+    },
+  });
 
   return (
     <KeyboardAvoidingView
@@ -45,47 +58,51 @@ export const LoginScreen: React.FC<LoginScreenProps> = ({ onToggleMode }) => {
     >
       <ScrollView contentContainerStyle={styles.scrollContainer}>
         <View style={styles.formContainer}>
-          <Text style={styles.title}>ログイン</Text>
+          <ThemedText type="title" style={styles.title}>
+            ログイン
+          </ThemedText>
 
-          <View style={styles.inputContainer}>
-            <Text style={styles.label}>メールアドレス</Text>
-            <TextInput
-              style={styles.input}
-              value={email}
-              onChangeText={setEmail}
-              placeholder="example@email.com"
-              keyboardType="email-address"
-              autoCapitalize="none"
-              autoCorrect={false}
-            />
-          </View>
+          <ValidatedInput
+            label="メールアドレス"
+            value={form.values.email}
+            error={form.errors.email}
+            touched={form.touched.email}
+            onChangeText={(text) => form.setValue("email", text)}
+            onBlur={() => form.handleBlur("email")}
+            placeholder="example@email.com"
+            keyboardType="email-address"
+            autoCapitalize="none"
+            autoCorrect={false}
+            required
+          />
 
-          <View style={styles.inputContainer}>
-            <Text style={styles.label}>パスワード</Text>
-            <TextInput
-              style={styles.input}
-              value={password}
-              onChangeText={setPassword}
-              placeholder="パスワードを入力"
-              secureTextEntry
-              autoCapitalize="none"
-            />
-          </View>
+          <ValidatedInput
+            label="パスワード"
+            value={form.values.password}
+            error={form.errors.password}
+            touched={form.touched.password}
+            onChangeText={(text) => form.setValue("password", text)}
+            onBlur={() => form.handleBlur("password")}
+            placeholder="パスワードを入力"
+            secureTextEntry
+            autoCapitalize="none"
+            required
+          />
 
           <TouchableOpacity
-            style={[styles.button, loading && styles.buttonDisabled]}
-            onPress={handleLogin}
-            disabled={loading}
+            style={[styles.button, form.isSubmitting && styles.buttonDisabled]}
+            onPress={form.handleSubmit}
+            disabled={form.isSubmitting}
           >
-            <Text style={styles.buttonText}>
-              {loading ? "ログイン中..." : "ログイン"}
-            </Text>
+            <ThemedText style={styles.buttonText}>
+              {form.isSubmitting ? "ログイン中..." : "ログイン"}
+            </ThemedText>
           </TouchableOpacity>
 
           <TouchableOpacity style={styles.linkButton} onPress={onToggleMode}>
-            <Text style={styles.linkText}>
+            <ThemedText style={styles.linkText}>
               アカウントをお持ちでない方は新規登録
-            </Text>
+            </ThemedText>
           </TouchableOpacity>
         </View>
       </ScrollView>
@@ -122,23 +139,6 @@ const styles = StyleSheet.create({
     textAlign: "center",
     marginBottom: 30,
     color: "#333",
-  },
-  inputContainer: {
-    marginBottom: 20,
-  },
-  label: {
-    fontSize: 16,
-    fontWeight: "600",
-    marginBottom: 5,
-    color: "#333",
-  },
-  input: {
-    borderWidth: 1,
-    borderColor: "#ddd",
-    borderRadius: 8,
-    padding: 12,
-    fontSize: 16,
-    backgroundColor: "#f9f9f9",
   },
   button: {
     backgroundColor: "#007AFF",
