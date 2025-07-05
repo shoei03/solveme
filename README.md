@@ -16,6 +16,15 @@
 - 日本語エラーメッセージ
 - 再利用可能なバリデーションコンポーネント
 
+### ✅ プロフィール機能
+
+- プロフィール情報表示（ユーザー名、メール、参加日、自己紹介）
+- アバター画像表示
+- プロフィール編集機能
+- 活動統計表示（投稿数、回答数、ベストアンサー数、役に立った数）
+- 最近のアクティビティ履歴
+- ログアウト機能
+
 ### ✅ 品質管理
 
 - TypeScript 型チェック
@@ -44,7 +53,7 @@ React Native (Expo) で作成された、ユーザーが悩みを投稿し、他
 - カテゴリ別フィルター
 - 評価システム
 - プッシュ通知
-- プロフィール管理
+- プロフィール画像アップロード
 - 収益化機能（トップ表示）
 
 ## 📱 セットアップ手順
@@ -129,39 +138,12 @@ npm run precommit     # コミット前チェック
 - Authentication: メール/パスワード認証
 - Firestore: ユーザープロフィール、投稿、回答データの保存
 
+## � ドキュメント
+
+- [Firebase 設定手順](FIREBASE_SETUP.md)
+- [バリデーション機能詳細](docs/VALIDATION.md)
+- [プロフィール機能詳細](docs/PROFILE.md)
+
 ## 📄 ライセンス
 
 MIT License
-
-In the output, you'll find options to open the app in a
-
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
-
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
-
-## Get a fresh project
-
-When you're ready, run:
-
-```bash
-npm run reset-project
-```
-
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
-
-## Learn more
-
-To learn more about developing your project with Expo, look at the following resources:
-
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
-
-## Join the community
-
-Join our community of developers creating universal apps.
-
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
