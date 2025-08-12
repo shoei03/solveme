@@ -1,9 +1,9 @@
-import { useCallback, useState } from "react";
 import {
-  ValidationResult,
-  ValidationRule,
+  type ValidationResult,
+  type ValidationRule,
   validateField,
-} from "../utils/validation";
+} from "@/utils/validation";
+import { useCallback, useState } from "react";
 
 // フォームフィールドの型定義
 export interface FormField {
@@ -163,12 +163,20 @@ export const useForm = (options: UseFormOptions): UseFormReturn => {
 
   // フォーム送信の処理
   const handleSubmit = useCallback(async () => {
+    // onSubmitが定義されていない場合は何もしない
     if (!onSubmit) return;
 
+    // 送信中の場合は何もしない
+    if (isSubmitting) return;
+
+    // フォームの送信開始フラグを設定
+    setIsSubmitting(true);
+
+    // フォームのバリデーションを実行
     const isFormValid = validateForm();
     if (!isFormValid) return;
 
-    setIsSubmitting(true);
+    // フォームを送信
     try {
       const values: { [key: string]: string } = {};
       Object.keys(formState).forEach((key) => {
@@ -180,7 +188,7 @@ export const useForm = (options: UseFormOptions): UseFormReturn => {
     } finally {
       setIsSubmitting(false);
     }
-  }, [formState, onSubmit, validateForm]);
+  }, [formState, isSubmitting, onSubmit, validateForm]);
 
   // フォームのリセット
   const reset = useCallback(() => {

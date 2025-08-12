@@ -8,7 +8,7 @@ import { Stack } from "expo-router";
 import { StatusBar } from "expo-status-bar";
 import "react-native-reanimated";
 
-import { AuthScreen } from "@/components/auth/AuthScreen";
+import { AuthScreen } from "./auth/index";
 import { LoadingScreen } from "@/components/LoadingScreen";
 import { AuthProvider, useAuth } from "@/contexts/AuthContext";
 import { useColorScheme } from "@/hooks/useColorScheme";

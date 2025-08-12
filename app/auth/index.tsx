@@ -1,8 +1,9 @@
-import React, { useState } from "react";
-import { LoginScreen } from "./LoginScreen";
-import { SignUpScreen } from "./SignUpScreen";
+import { useState } from "react";
 
-export const AuthScreen: React.FC = () => {
+import { LoginScreen } from "./_components/LoginScreen";
+import { SignUpScreen } from "./_components/SignUpScreen";
+
+export const AuthScreen = () => {
   const [isLoginMode, setIsLoginMode] = useState(true);
 
   const toggleMode = () => {
