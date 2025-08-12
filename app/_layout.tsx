@@ -18,14 +18,17 @@ function AppContent() {
   const colorScheme = useColorScheme();
   const { user, loading } = useAuth();
 
+  // ログイン状態の確認中
   if (loading) {
     return <LoadingScreen />;
   }
 
+  // ユーザーがログインしていない場合は認証画面を表示
   if (!user) {
     return <AuthScreen />;
   }
 
+  // ユーザーがログインしている場合はメインアプリを表示
   return (
     <ThemeProvider value={colorScheme === "dark" ? DarkTheme : DefaultTheme}>
       <Stack>
