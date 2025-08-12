@@ -11,22 +11,22 @@ import {
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
-import { ProfileEdit } from "../../components/profile/ProfileEdit";
-import { ProfileStats } from "../../components/profile/ProfileStats";
-import { ThemedText } from "../../components/ThemedText";
-import { ThemedView } from "../../components/ThemedView";
-import { IconSymbol } from "../../components/ui/IconSymbol";
-import { Colors } from "../../constants/Colors";
-import { useAuth } from "../../contexts/AuthContext";
-import { useColorScheme } from "../../hooks/useColorScheme";
-import { UserProfile } from "../../services/authService";
+import { ProfileEdit } from "@/components/profile/ProfileEdit";
+import { ProfileStats } from "@/components/profile/ProfileStats";
+import { ThemedText } from "@/components/ThemedText";
+import { ThemedView } from "@/components/ThemedView";
+import { IconSymbol } from "@/components/ui/IconSymbol";
+import { Colors } from "@/constants/Colors";
+import { useAuth } from "@/contexts/AuthContext";
+import { useColorScheme } from "@/hooks/useColorScheme";
+import { UserProfile } from "@/services/authService";
 import {
   profileService,
   ProfileUpdateData,
   RecentActivity,
   UserStats,
-} from "../../services/profileService";
-import { formatDate } from "../../utils/helpers";
+} from "@/services/profileService";
+import { formatDate } from "@/utils/helpers";
 
 export default function ProfileScreen() {
   const colorScheme = useColorScheme();
