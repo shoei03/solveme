@@ -8,8 +8,8 @@ import {
 } from "firebase/auth";
 import { doc, setDoc } from "firebase/firestore";
 
-import { auth, db } from "../config/firebase";
-import { getJapaneseErrorMessage } from "../utils/helpers";
+import { auth, db } from "@/config/firebase";
+import { getJapaneseErrorMessage } from "@/utils/helpers";
 
 export interface UserProfile {
   uid: string;
