@@ -1,6 +1,5 @@
 import React from "react";
 import {
-  Alert,
   KeyboardAvoidingView,
   Platform,
   ScrollView,
@@ -8,82 +7,21 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
-import { useForm } from "@/hooks/useForm";
-import { authService } from "@/services/authService";
-import {
-  getPasswordStrength,
-  validateDisplayName,
-  validateEmail,
-  validatePassword,
-  validatePasswordConfirmation,
-} from "@/utils/validation";
+
 import { ThemedText } from "@/components/ThemedText";
 import { ValidatedInput } from "@/components/ui/ValidatedInput";
+import {
+  getPasswordStrength
+} from "@/utils/validation";
+
+import { useSignUpForm } from "../_hooks/use-auth-form";
 
 interface SignUpScreenProps {
   onToggleMode: () => void;
 }
 
 export const SignUpScreen: React.FC<SignUpScreenProps> = ({ onToggleMode }) => {
-  const form = useForm({
-    initialValues: {
-      email: "",
-      password: "",
-      confirmPassword: "",
-      displayName: "",
-    },
-    validationRules: {
-      email: { required: true },
-      password: { required: true },
-      confirmPassword: { required: true },
-      displayName: { required: true },
-    },
-    onSubmit: async (values) => {
-      // フィールド別バリデーション
-      const emailValidation = validateEmail(values.email);
-      const passwordValidation = validatePassword(values.password);
-      const confirmPasswordValidation = validatePasswordConfirmation(
-        values.password,
-        values.confirmPassword
-      );
-      const displayNameValidation = validateDisplayName(values.displayName);
-
-      // エラーがある場合は設定
-      if (!emailValidation.isValid) {
-        form.setError("email", emailValidation.error!);
-      }
-      if (!passwordValidation.isValid) {
-        form.setError("password", passwordValidation.error!);
-      }
-      if (!confirmPasswordValidation.isValid) {
-        form.setError("confirmPassword", confirmPasswordValidation.error!);
-      }
-      if (!displayNameValidation.isValid) {
-        form.setError("displayName", displayNameValidation.error!);
-      }
-
-      // バリデーションエラーがある場合は処理を停止
-      if (
-        !emailValidation.isValid ||
-        !passwordValidation.isValid ||
-        !confirmPasswordValidation.isValid ||
-        !displayNameValidation.isValid
-      ) {
-        return;
-      }
-
-      try {
-        await authService.signUp(
-          values.email,
-          values.password,
-          values.displayName
-        );
-        Alert.alert("成功", "アカウントが作成されました");
-      } catch (error: any) {
-        Alert.alert("登録エラー", error.message);
-      }
-    },
-  });
+  const form = useSignUpForm();
 
   const passwordStrength = getPasswordStrength(form.values.password);
 

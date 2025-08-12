@@ -7,9 +7,11 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
-import { ThemedText } from "../../../components/ThemedText";
-import { ValidatedInput } from "../../../components/ui/ValidatedInput";
-import { useLoginForm } from "../_hooks/useLoginForm";
+
+import { ThemedText } from "@/components/ThemedText";
+import { ValidatedInput } from "@/components/ui/ValidatedInput";
+
+import { useLoginForm } from "../_hooks/use-auth-form";
 
 interface LoginScreenProps {
   onToggleMode: () => void;

@@ -6,12 +6,13 @@ import {
 import { useFonts } from "expo-font";
 import { Stack } from "expo-router";
 import { StatusBar } from "expo-status-bar";
-import "react-native-reanimated";
 
-import { AuthScreen } from "./auth/index";
+import "react-native-reanimated";
 import { LoadingScreen } from "@/components/LoadingScreen";
 import { AuthProvider, useAuth } from "@/contexts/AuthContext";
 import { useColorScheme } from "@/hooks/useColorScheme";
+
+import { AuthScreen } from "./auth/index";
 
 function AppContent() {
   const colorScheme = useColorScheme();
