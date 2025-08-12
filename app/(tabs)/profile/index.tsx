@@ -11,9 +11,6 @@ import {
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
-import { ProfileEdit } from "@/components/profile/ProfileEdit";
-import { ProfileStats } from "@/components/profile/ProfileStats";
-import { SlideMenu } from "@/components/profile/SlideMenu";
 import { ThemedText } from "@/components/ThemedText";
 import { ThemedView } from "@/components/ThemedView";
 import { IconSymbol } from "@/components/ui/IconSymbol";
@@ -28,6 +25,10 @@ import {
   type UserStats,
 } from "@/services/profileService";
 import { formatDate } from "@/utils/helpers";
+
+import { ProfileEdit } from "./_components/profile-edit";
+import { ProfileStats } from "./_components/profile-stats";
+import { SlideMenu } from "./_components/slide-menu";
 
 export default function ProfileScreen() {
   const colorScheme = useColorScheme();

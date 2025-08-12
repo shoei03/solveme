@@ -9,16 +9,16 @@ import {
   View,
 } from "react-native";
 
-import { useForm } from "../../hooks/useForm";
-import { UserProfile } from "../../services/authService";
+import { ThemedText } from "@/components/ThemedText";
+import { ValidatedInput } from "@/components/ui/ValidatedInput";
+import { ValidatedTextArea } from "@/components/ui/ValidatedTextArea";
+import { useForm } from "@/hooks/useForm";
+import { UserProfile } from "@/services/authService";
 import {
   profileService,
   ProfileUpdateData,
-} from "../../services/profileService";
-import { validateBio, validateDisplayName } from "../../utils/validation";
-import { ThemedText } from "../ThemedText";
-import { ValidatedInput } from "../ui/ValidatedInput";
-import { ValidatedTextArea } from "../ui/ValidatedTextArea";
+} from "@/services/profileService";
+import { validateBio, validateDisplayName } from "@/utils/validation";
 
 interface ProfileEditProps {
   profile: UserProfile;
