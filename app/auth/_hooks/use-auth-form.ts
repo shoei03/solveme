@@ -49,8 +49,12 @@ export const useSignUpForm = () => {
           values.displayName
         );
         Alert.alert("成功", "アカウントが作成されました");
-      } catch (error: any) {
-        Alert.alert("登録エラー", error.message);
+      } catch (error: unknown) {
+        const errorMessage =
+          error instanceof Error
+            ? error.message
+            : "アカウント作成に失敗しました";
+        Alert.alert("登録エラー", errorMessage);
       }
     },
   });
