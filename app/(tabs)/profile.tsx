@@ -19,7 +19,7 @@ import { IconSymbol } from "@/components/ui/IconSymbol";
 import { Colors } from "@/constants/Colors";
 import { useAuth } from "@/contexts/AuthContext";
 import { useColorScheme } from "@/hooks/useColorScheme";
-import { UserProfile } from "@/services/authService";
+import { authService, UserProfile } from "@/services/authService";
 import {
   profileService,
   ProfileUpdateData,
@@ -30,7 +30,7 @@ import { formatDate } from "@/utils/helpers";
 
 export default function ProfileScreen() {
   const colorScheme = useColorScheme();
-  const { user, logout } = useAuth();
+  const { user } = useAuth();
   const [profile, setProfile] = useState<UserProfile | null>(null);
   const [stats, setStats] = useState<UserStats | null>(null);
   const [activities, setActivities] = useState<RecentActivity[]>([]);
@@ -84,7 +84,15 @@ export default function ProfileScreen() {
       {
         text: "ログアウト",
         style: "destructive",
-        onPress: logout,
+        onPress: async () => {
+          try {
+            await authService.logOut();
+          } catch (error: unknown) {
+            const errorMessage =
+              error instanceof Error ? error.message : "ログアウトに失敗しました";
+            Alert.alert("ログアウトエラー", errorMessage);
+          }
+        },
       },
     ]);
   };
