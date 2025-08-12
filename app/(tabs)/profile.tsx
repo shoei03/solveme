@@ -19,12 +19,12 @@ import { IconSymbol } from "@/components/ui/IconSymbol";
 import { Colors } from "@/constants/Colors";
 import { useAuth } from "@/contexts/AuthContext";
 import { useColorScheme } from "@/hooks/useColorScheme";
-import { authService, UserProfile } from "@/services/authService";
+import { authService, type UserProfile } from "@/services/authService";
 import {
   profileService,
-  ProfileUpdateData,
-  RecentActivity,
-  UserStats,
+  type ProfileUpdateData,
+  type RecentActivity,
+  type UserStats,
 } from "@/services/profileService";
 import { formatDate } from "@/utils/helpers";
 
@@ -51,7 +51,7 @@ export default function ProfileScreen() {
       setProfile(profileData);
       setStats(statsData);
       setActivities(activitiesData);
-    } catch (error: any) {
+    } catch (error: unknown) {
       console.error("Failed to load profile data:", error);
       Alert.alert("エラー", "プロフィール情報の読み込みに失敗しました");
     } finally {
@@ -89,7 +89,9 @@ export default function ProfileScreen() {
             await authService.logOut();
           } catch (error: unknown) {
             const errorMessage =
-              error instanceof Error ? error.message : "ログアウトに失敗しました";
+              error instanceof Error
+                ? error.message
+                : "ログアウトに失敗しました";
             Alert.alert("ログアウトエラー", errorMessage);
           }
         },
