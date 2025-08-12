@@ -1,9 +1,10 @@
+import { useCallback, useState } from "react";
+
 import {
   type ValidationResult,
   type ValidationRule,
   validateField,
 } from "@/utils/validation";
-import { useCallback, useState } from "react";
 
 // フォームフィールドの型定義
 export interface FormField {
@@ -174,7 +175,10 @@ export const useForm = (options: UseFormOptions): UseFormReturn => {
 
     // フォームのバリデーションを実行
     const isFormValid = validateForm();
-    if (!isFormValid) return;
+    if (!isFormValid) {
+      setIsSubmitting(false);
+      return;
+    }
 
     // フォームを送信
     try {
