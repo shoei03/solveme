@@ -13,6 +13,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 
 import { ProfileEdit } from "@/components/profile/ProfileEdit";
 import { ProfileStats } from "@/components/profile/ProfileStats";
+import { SlideMenu } from "@/components/profile/SlideMenu";
 import { ThemedText } from "@/components/ThemedText";
 import { ThemedView } from "@/components/ThemedView";
 import { IconSymbol } from "@/components/ui/IconSymbol";
@@ -35,6 +36,7 @@ export default function ProfileScreen() {
   const [stats, setStats] = useState<UserStats | null>(null);
   const [activities, setActivities] = useState<RecentActivity[]>([]);
   const [isEditing, setIsEditing] = useState(false);
+  const [isMenuVisible, setIsMenuVisible] = useState(false);
   const [loading, setLoading] = useState(true);
   const [refreshing, setRefreshing] = useState(false);
 
@@ -177,6 +179,19 @@ export default function ProfileScreen() {
                   color="white"
                 />
               </TouchableOpacity>
+              <TouchableOpacity
+                style={[
+                  styles.headerButton,
+                  { backgroundColor: Colors[colorScheme ?? "light"].text },
+                ]}
+                onPress={() => setIsMenuVisible(true)}
+              >
+                <IconSymbol
+                  name="line.3.horizontal"
+                  size={16}
+                  color={Colors[colorScheme ?? "light"].background}
+                />
+              </TouchableOpacity>
             </View>
           </View>
         </ThemedView>
@@ -225,6 +240,12 @@ export default function ProfileScreen() {
           </ThemedView>
         )}
       </ScrollView>
+
+      {/* SlideMenu */}
+      <SlideMenu
+        isVisible={isMenuVisible}
+        onClose={() => setIsMenuVisible(false)}
+      />
     </SafeAreaView>
   );
 }
