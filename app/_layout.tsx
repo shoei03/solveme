@@ -8,11 +8,10 @@ import { Stack } from "expo-router";
 import { StatusBar } from "expo-status-bar";
 
 import "react-native-reanimated";
+import { AuthScreen } from "@/components/auth/index";
 import { LoadingScreen } from "@/components/LoadingScreen";
 import { AuthProvider, useAuth } from "@/contexts/AuthContext";
 import { useColorScheme } from "@/hooks/useColorScheme";
-
-import { AuthScreen } from "./auth/index";
 
 function AppContent() {
   const colorScheme = useColorScheme();
@@ -32,8 +31,7 @@ function AppContent() {
   return (
     <ThemeProvider value={colorScheme === "dark" ? DarkTheme : DefaultTheme}>
       <Stack>
-        <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-        <Stack.Screen name="(settings)" options={{ headerShown: false }} />
+        <Stack.Screen name="(home)" options={{ headerShown: false }} />
         <Stack.Screen name="+not-found" />
       </Stack>
       <StatusBar style="auto" />
