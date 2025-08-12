@@ -10,6 +10,7 @@ import {
   View,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
+
 import { ProfileEdit } from "../../components/profile/ProfileEdit";
 import { ProfileStats } from "../../components/profile/ProfileStats";
 import { ThemedText } from "../../components/ThemedText";
