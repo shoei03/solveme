@@ -1,11 +1,13 @@
 import {
   createUserWithEmailAndPassword,
+  sendPasswordResetEmail,
   signInWithEmailAndPassword,
   signOut,
   updateProfile,
-  User,
+  type User,
 } from "firebase/auth";
 import { doc, setDoc } from "firebase/firestore";
+
 import { auth, db } from "../config/firebase";
 import { getJapaneseErrorMessage } from "../utils/helpers";
 
@@ -41,7 +43,7 @@ export const authService = {
       // Firestoreにユーザープロフィールを保存
       const userProfile: UserProfile = {
         uid: user.uid,
-        email: user.email!,
+        email: user.email || "",
         displayName,
         bio: "",
         postsCount: 0,
@@ -80,5 +82,14 @@ export const authService = {
   // 現在のユーザー取得
   getCurrentUser(): User | null {
     return auth.currentUser;
+  },
+
+  // パスワードリセットメール送信
+  async resetPassword(email: string): Promise<void> {
+    try {
+      await sendPasswordResetEmail(auth, email);
+    } catch (error: any) {
+      throw new Error(getJapaneseErrorMessage(error.code) || error.message);
+    }
   },
 };

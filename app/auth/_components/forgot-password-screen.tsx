@@ -1,4 +1,4 @@
-import React from "react";
+import type React from "react";
 import {
   KeyboardAvoidingView,
   Platform,
@@ -10,18 +10,17 @@ import {
 
 import { ThemedText } from "@/components/ThemedText";
 import { ValidatedInput } from "@/components/ui/ValidatedInput";
-import { getPasswordStrength } from "@/utils/validation";
 
-import { useSignUpForm } from "../_hooks/use-auth-form";
+import { useForgotPasswordForm } from "../_hooks/use-auth-form";
 
-interface SignUpScreenProps {
-  onToggleMode: () => void;
+interface ForgotPasswordScreenProps {
+  onGoBack: () => void;
 }
 
-export const SignUpScreen: React.FC<SignUpScreenProps> = ({ onToggleMode }) => {
-  const form = useSignUpForm();
-
-  const passwordStrength = getPasswordStrength(form.values.password);
+export const ForgotPasswordScreen: React.FC<ForgotPasswordScreenProps> = ({
+  onGoBack,
+}) => {
+  const form = useForgotPasswordForm();
 
   return (
     <KeyboardAvoidingView
@@ -31,21 +30,13 @@ export const SignUpScreen: React.FC<SignUpScreenProps> = ({ onToggleMode }) => {
       <ScrollView contentContainerStyle={styles.scrollContainer}>
         <View style={styles.formContainer}>
           <ThemedText type="title" style={styles.title}>
-            新規登録
+            パスワードを忘れた場合
           </ThemedText>
 
-          <ValidatedInput
-            label="ユーザー名"
-            value={form.values.displayName}
-            error={form.errors.displayName}
-            touched={form.touched.displayName}
-            onChangeText={(text) => form.setValue("displayName", text)}
-            onBlur={() => form.handleBlur("displayName")}
-            placeholder="ユーザー名を入力"
-            autoCapitalize="none"
-            autoCorrect={false}
-            required
-          />
+          <ThemedText style={styles.description}>
+            登録時のメールアドレスを入力してください。
+            パスワードリセット用のリンクをお送りします。
+          </ThemedText>
 
           <ValidatedInput
             label="メールアドレス"
@@ -61,48 +52,18 @@ export const SignUpScreen: React.FC<SignUpScreenProps> = ({ onToggleMode }) => {
             required
           />
 
-          <ValidatedInput
-            label="パスワード"
-            value={form.values.password}
-            error={form.errors.password}
-            touched={form.touched.password}
-            onChangeText={(text) => form.setValue("password", text)}
-            onBlur={() => form.handleBlur("password")}
-            placeholder="パスワードを入力（6文字以上）"
-            secureTextEntry
-            autoCapitalize="none"
-            required
-            showPasswordStrength
-            passwordStrength={passwordStrength}
-          />
-
-          <ValidatedInput
-            label="パスワード確認"
-            value={form.values.confirmPassword}
-            error={form.errors.confirmPassword}
-            touched={form.touched.confirmPassword}
-            onChangeText={(text) => form.setValue("confirmPassword", text)}
-            onBlur={() => form.handleBlur("confirmPassword")}
-            placeholder="パスワードを再入力"
-            secureTextEntry
-            autoCapitalize="none"
-            required
-          />
-
           <TouchableOpacity
             style={[styles.button, form.isSubmitting && styles.buttonDisabled]}
             onPress={form.handleSubmit}
             disabled={form.isSubmitting}
           >
             <ThemedText style={styles.buttonText}>
-              {form.isSubmitting ? "登録中..." : "新規登録"}
+              {form.isSubmitting ? "送信中..." : "リセットメールを送信"}
             </ThemedText>
           </TouchableOpacity>
 
-          <TouchableOpacity style={styles.linkButton} onPress={onToggleMode}>
-            <ThemedText style={styles.linkText}>
-              既にアカウントをお持ちの方はログイン
-            </ThemedText>
+          <TouchableOpacity style={styles.linkButton} onPress={onGoBack}>
+            <ThemedText style={styles.linkText}>ログイン画面に戻る</ThemedText>
           </TouchableOpacity>
         </View>
       </ScrollView>
@@ -137,8 +98,15 @@ const styles = StyleSheet.create({
     fontSize: 28,
     fontWeight: "bold",
     textAlign: "center",
-    marginBottom: 30,
+    marginBottom: 20,
     color: "#333",
+  },
+  description: {
+    fontSize: 16,
+    textAlign: "center",
+    marginBottom: 30,
+    color: "#666",
+    lineHeight: 22,
   },
   button: {
     backgroundColor: "#007AFF",

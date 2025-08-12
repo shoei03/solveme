@@ -15,9 +15,15 @@ import { useLoginForm } from "../_hooks/use-auth-form";
 
 interface LoginScreenProps {
   onToggleMode: () => void;
+  onForgotPassword: () => void;
+  onForgotEmail: () => void;
 }
 
-export const LoginScreen: React.FC<LoginScreenProps> = ({ onToggleMode }) => {
+export const LoginScreen: React.FC<LoginScreenProps> = ({
+  onToggleMode,
+  onForgotPassword,
+  onForgotEmail,
+}) => {
   const form = useLoginForm();
 
   return (
@@ -73,6 +79,23 @@ export const LoginScreen: React.FC<LoginScreenProps> = ({ onToggleMode }) => {
               アカウントをお持ちでない方は新規登録
             </ThemedText>
           </TouchableOpacity>
+
+          <View style={styles.helpContainer}>
+            <TouchableOpacity
+              style={styles.helpButton}
+              onPress={onForgotPassword}
+            >
+              <ThemedText style={styles.helpText}>
+                パスワードを忘れた場合
+              </ThemedText>
+            </TouchableOpacity>
+
+            <TouchableOpacity style={styles.helpButton} onPress={onForgotEmail}>
+              <ThemedText style={styles.helpText}>
+                メールアドレスを忘れた場合
+              </ThemedText>
+            </TouchableOpacity>
+          </View>
         </View>
       </ScrollView>
     </KeyboardAvoidingView>
@@ -131,5 +154,20 @@ const styles = StyleSheet.create({
   linkText: {
     color: "#007AFF",
     fontSize: 16,
+  },
+  helpContainer: {
+    marginTop: 30,
+    borderTopWidth: 1,
+    borderTopColor: "#E0E0E0",
+    paddingTop: 20,
+  },
+  helpButton: {
+    alignItems: "center",
+    marginBottom: 15,
+  },
+  helpText: {
+    color: "#666",
+    fontSize: 14,
+    textDecorationLine: "underline",
   },
 });

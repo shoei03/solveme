@@ -57,3 +57,32 @@ export const useSignUpForm = () => {
 
   return form;
 };
+
+export const useForgotPasswordForm = (onSuccess?: () => void) => {
+  const form = useForm({
+    initialValues: {
+      email: "",
+    },
+    validationRules: {
+      email: { required: true },
+    },
+    onSubmit: async (values) => {
+      try {
+        await authService.resetPassword(values.email);
+        Alert.alert(
+          "パスワードリセット",
+          "パスワードリセット用のメールを送信しました。メールをご確認ください。",
+          [{ text: "OK", onPress: onSuccess }]
+        );
+      } catch (error: unknown) {
+        const errorMessage =
+          error instanceof Error
+            ? error.message
+            : "リセットメールの送信に失敗しました";
+        Alert.alert("エラー", errorMessage);
+      }
+    },
+  });
+
+  return form;
+};
