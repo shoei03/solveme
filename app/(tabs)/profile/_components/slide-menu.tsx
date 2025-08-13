@@ -5,22 +5,29 @@ import {
   Dimensions,
   Modal,
   StyleSheet,
-  TouchableOpacity,
   TouchableWithoutFeedback,
   View,
 } from "react-native";
 
-import { ThemedText } from "@/components/ThemedText";
-import { IconSymbol } from "@/components/ui/IconSymbol";
 import { Colors } from "@/constants/Colors";
 import { useColorScheme } from "@/hooks/useColorScheme";
+
+import type { MenuItemConfig } from "./menu";
+import { MenuContent } from "./menu";
 
 interface SlideMenuProps {
   isVisible: boolean;
   onClose: () => void;
+  title: string;
+  menuItems: MenuItemConfig[];
 }
 
-export const SlideMenu: React.FC<SlideMenuProps> = ({ isVisible, onClose }) => {
+export const SlideMenu: React.FC<SlideMenuProps> = ({
+  isVisible,
+  onClose,
+  title,
+  menuItems,
+}) => {
   const colorScheme = useColorScheme();
   const [slideAnimation] = useState(
     new Animated.Value(Dimensions.get("window").width)
@@ -42,23 +49,10 @@ export const SlideMenu: React.FC<SlideMenuProps> = ({ isVisible, onClose }) => {
     }
   }, [isVisible, slideAnimation]);
 
-  const handleMenuOption = (option: string) => {
+  const handleMenuOption = (route: MenuItemConfig["route"]) => {
     onClose();
     setTimeout(() => {
-      switch (option) {
-        case "account":
-          router.push("/(settings)/account");
-          break;
-        case "notifications":
-          router.push("/(settings)/notifications");
-          break;
-        case "details":
-          router.push("/(settings)/details");
-          break;
-        case "contact":
-          router.push("/(settings)/contact");
-          break;
-      }
+      router.push(route);
     }, 300);
   };
 
@@ -81,92 +75,12 @@ export const SlideMenu: React.FC<SlideMenuProps> = ({ isVisible, onClose }) => {
                 },
               ]}
             >
-              <View style={styles.menuHeader}>
-                <ThemedText type="subtitle" style={styles.menuTitle}>
-                  メニュー
-                </ThemedText>
-                <TouchableOpacity onPress={onClose} style={styles.closeButton}>
-                  <IconSymbol
-                    name="xmark"
-                    size={20}
-                    color={Colors[colorScheme ?? "light"].text}
-                  />
-                </TouchableOpacity>
-              </View>
-
-              <View style={styles.menuItems}>
-                <TouchableOpacity
-                  style={styles.menuItem}
-                  onPress={() => handleMenuOption("account")}
-                >
-                  <IconSymbol
-                    name="person.crop.circle.fill"
-                    size={20}
-                    color={Colors[colorScheme ?? "light"].text}
-                  />
-                  <ThemedText style={styles.menuItemText}>
-                    アカウント
-                  </ThemedText>
-                  <IconSymbol
-                    name="chevron.right"
-                    size={16}
-                    color={Colors[colorScheme ?? "light"].tabIconDefault}
-                  />
-                </TouchableOpacity>
-
-                <TouchableOpacity
-                  style={styles.menuItem}
-                  onPress={() => handleMenuOption("notifications")}
-                >
-                  <IconSymbol
-                    name="bell.fill"
-                    size={20}
-                    color={Colors[colorScheme ?? "light"].text}
-                  />
-                  <ThemedText style={styles.menuItemText}>通知</ThemedText>
-                  <IconSymbol
-                    name="chevron.right"
-                    size={16}
-                    color={Colors[colorScheme ?? "light"].tabIconDefault}
-                  />
-                </TouchableOpacity>
-
-                <TouchableOpacity
-                  style={styles.menuItem}
-                  onPress={() => handleMenuOption("details")}
-                >
-                  <IconSymbol
-                    name="info.circle.fill"
-                    size={20}
-                    color={Colors[colorScheme ?? "light"].text}
-                  />
-                  <ThemedText style={styles.menuItemText}>詳細</ThemedText>
-                  <IconSymbol
-                    name="chevron.right"
-                    size={16}
-                    color={Colors[colorScheme ?? "light"].tabIconDefault}
-                  />
-                </TouchableOpacity>
-
-                <TouchableOpacity
-                  style={styles.menuItem}
-                  onPress={() => handleMenuOption("contact")}
-                >
-                  <IconSymbol
-                    name="envelope.fill"
-                    size={20}
-                    color={Colors[colorScheme ?? "light"].text}
-                  />
-                  <ThemedText style={styles.menuItemText}>
-                    お問い合わせ
-                  </ThemedText>
-                  <IconSymbol
-                    name="chevron.right"
-                    size={16}
-                    color={Colors[colorScheme ?? "light"].tabIconDefault}
-                  />
-                </TouchableOpacity>
-              </View>
+              <MenuContent
+                onMenuItemPress={handleMenuOption}
+                onClose={onClose}
+                title={title}
+                menuItems={menuItems}
+              />
             </Animated.View>
           </TouchableWithoutFeedback>
         </View>
@@ -197,37 +111,5 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.25,
     shadowRadius: 10,
     elevation: 10,
-  },
-  menuHeader: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
-    paddingBottom: 20,
-    borderBottomWidth: 1,
-    borderBottomColor: "rgba(0, 0, 0, 0.1)",
-    marginBottom: 20,
-  },
-  menuTitle: {
-    fontSize: 20,
-    fontWeight: "bold",
-  },
-  closeButton: {
-    padding: 5,
-  },
-  menuItems: {
-    flex: 1,
-  },
-  menuItem: {
-    flexDirection: "row",
-    alignItems: "center",
-    paddingVertical: 15,
-    paddingHorizontal: 10,
-    borderRadius: 8,
-    marginBottom: 5,
-  },
-  menuItemText: {
-    flex: 1,
-    fontSize: 16,
-    marginLeft: 15,
   },
 });

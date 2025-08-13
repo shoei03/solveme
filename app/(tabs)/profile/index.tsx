@@ -26,6 +26,7 @@ import {
 } from "@/services/profileService";
 import { formatDate } from "@/utils/helpers";
 
+import { defaultMenuItems } from "./_components/index";
 import { ProfileEdit } from "./_components/profile-edit";
 import { ProfileStats } from "./_components/profile-stats";
 import { SlideMenu } from "./_components/slide-menu";
@@ -246,6 +247,8 @@ export default function ProfileScreen() {
       <SlideMenu
         isVisible={isMenuVisible}
         onClose={() => setIsMenuVisible(false)}
+        title="メニュー"
+        menuItems={defaultMenuItems}
       />
     </SafeAreaView>
   );
