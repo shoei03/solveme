@@ -1,3 +1,4 @@
+import { Link } from "expo-router";
 import { useCallback, useEffect, useState } from "react";
 import {
   ActivityIndicator,
@@ -17,17 +18,16 @@ import { IconSymbol } from "@/components/ui/IconSymbol";
 import { Colors } from "@/constants/Colors";
 import { useAuth } from "@/contexts/AuthContext";
 import { useColorScheme } from "@/hooks/useColorScheme";
-import { authService, type UserProfile } from "@/services/authService";
+import { authService } from "@/services/authService";
 import {
   profileService,
-  type ProfileUpdateData,
   type RecentActivity,
   type UserStats,
 } from "@/services/profileService";
+import { UserProfile } from "@/types/auth/user";
 import { formatDate } from "@/utils/helpers";
 
 import { defaultMenuItems } from "./_components/index";
-import { ProfileEdit } from "./_components/profile-edit";
 import { ProfileStats } from "./_components/profile-stats";
 import { SlideMenu } from "./_components/slide-menu";
 
@@ -37,7 +37,6 @@ export default function ProfileScreen() {
   const [profile, setProfile] = useState<UserProfile | null>(null);
   const [stats, setStats] = useState<UserStats | null>(null);
   const [activities, setActivities] = useState<RecentActivity[]>([]);
-  const [isEditing, setIsEditing] = useState(false);
   const [isMenuVisible, setIsMenuVisible] = useState(false);
   const [loading, setLoading] = useState(true);
   const [refreshing, setRefreshing] = useState(false);
@@ -67,16 +66,6 @@ export default function ProfileScreen() {
     setRefreshing(true);
     await loadProfileData();
     setRefreshing(false);
-  };
-
-  const handleProfileUpdate = async (updateData: ProfileUpdateData) => {
-    if (profile) {
-      setProfile({
-        ...profile,
-        ...updateData,
-      });
-    }
-    setIsEditing(false);
   };
 
   const handleLogout = () => {
@@ -131,18 +120,6 @@ export default function ProfileScreen() {
     );
   }
 
-  if (isEditing) {
-    return (
-      <SafeAreaView style={styles.container}>
-        <ProfileEdit
-          profile={profile}
-          onSave={handleProfileUpdate}
-          onCancel={() => setIsEditing(false)}
-        />
-      </SafeAreaView>
-    );
-  }
-
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView
@@ -162,15 +139,11 @@ export default function ProfileScreen() {
               プロフィール
             </ThemedText>
             <View style={styles.headerActions}>
-              <TouchableOpacity
-                style={[
-                  styles.headerButton,
-                  { backgroundColor: Colors[colorScheme ?? "light"].tint },
-                ]}
-                onPress={() => setIsEditing(true)}
-              >
-                <IconSymbol name="pencil" size={16} color="white" />
-              </TouchableOpacity>
+              <Link href={"/(settings)/account/edit"}>
+                <ThemedText>
+                  遷移
+                </ThemedText>
+              </Link>
               <TouchableOpacity
                 style={[styles.headerButton, styles.logoutButton]}
                 onPress={handleLogout}

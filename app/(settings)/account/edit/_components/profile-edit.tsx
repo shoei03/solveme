@@ -1,6 +1,4 @@
-import React from "react";
 import {
-  Alert,
   KeyboardAvoidingView,
   Platform,
   ScrollView,
@@ -12,13 +10,8 @@ import {
 import { ThemedText } from "@/components/ThemedText";
 import { ValidatedInput } from "@/components/ui/ValidatedInput";
 import { ValidatedTextArea } from "@/components/ui/ValidatedTextArea";
-import { useForm } from "@/hooks/useForm";
-import { UserProfile } from "@/services/authService";
-import {
-  profileService,
-  ProfileUpdateData,
-} from "@/services/profileService";
-import { validateBio, validateDisplayName } from "@/utils/validation";
+import { useProfileEdit } from "@/hooks/use-profile-edit";
+import { ProfileUpdateData, UserProfile } from "@/types/auth/user";
 
 interface ProfileEditProps {
   profile: UserProfile;
@@ -26,49 +19,8 @@ interface ProfileEditProps {
   onCancel: () => void;
 }
 
-export const ProfileEdit: React.FC<ProfileEditProps> = ({
-  profile,
-  onSave,
-  onCancel,
-}) => {
-  const form = useForm({
-    initialValues: {
-      displayName: profile.displayName || "",
-      bio: profile.bio || "",
-    },
-    validationRules: {
-      displayName: { required: true },
-      bio: { required: false },
-    },
-    onSubmit: async (values) => {
-      // バリデーション
-      const displayNameValidation = validateDisplayName(values.displayName);
-      const bioValidation = validateBio(values.bio);
-
-      if (!displayNameValidation.isValid) {
-        form.setError("displayName", displayNameValidation.error!);
-        return;
-      }
-
-      if (!bioValidation.isValid) {
-        form.setError("bio", bioValidation.error!);
-        return;
-      }
-
-      try {
-        const updateData: ProfileUpdateData = {
-          displayName: values.displayName,
-          bio: values.bio || undefined,
-        };
-
-        await profileService.updateProfile(updateData);
-        onSave(updateData);
-        Alert.alert("成功", "プロフィールを更新しました");
-      } catch (error: any) {
-        Alert.alert("エラー", error.message);
-      }
-    },
-  });
+export default function ProfileEdit({ profile, onSave, onCancel }: ProfileEditProps) {
+  const form = useProfileEdit({ profile, onSave });
 
   return (
     <KeyboardAvoidingView
