@@ -1,6 +1,5 @@
 import { useState } from "react";
 import {
-  ActivityIndicator,
   Image,
   RefreshControl,
   ScrollView,
@@ -10,6 +9,7 @@ import {
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
+import { LoadingScreen } from "@/components/LoadingScreen";
 import { ThemedText } from "@/components/ThemedText";
 import { ThemedView } from "@/components/ThemedView";
 import { IconSymbol } from "@/components/ui/IconSymbol";
@@ -27,20 +27,11 @@ export default function ProfileScreen() {
 
   const colorScheme = useColorScheme();
   const { user } = useAuth();
-  const { profile, isInitialLoading, isRefreshing, error, refreshProfile } = useUserProfile();
+  const { profile, isInitialLoading, isRefreshing, error, refreshProfile } =
+    useUserProfile();
 
   if (isInitialLoading) {
-    return (
-      <SafeAreaView style={styles.container}>
-        <View style={styles.loadingContainer}>
-          <ActivityIndicator
-            size="large"
-            color={Colors[colorScheme ?? "light"].tint}
-          />
-          <ThemedText style={styles.loadingText}>読み込み中...</ThemedText>
-        </View>
-      </SafeAreaView>
-    );
+    return <LoadingScreen />;
   }
 
   if (error) {
@@ -154,14 +145,6 @@ const styles = StyleSheet.create({
   },
   scrollContainer: {
     paddingBottom: 20,
-  },
-  loadingContainer: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  loadingText: {
-    marginTop: 10,
   },
   errorContainer: {
     flex: 1,
