@@ -1,4 +1,3 @@
-import { Link } from "expo-router";
 import { useState } from "react";
 import {
   ActivityIndicator,
@@ -24,19 +23,13 @@ import { SlideMenu } from "./_components/slide-menu";
 import { useUserProfile } from "./_hooks/use-user-profile";
 
 export default function ProfileScreen() {
+  const [isMenuVisible, setIsMenuVisible] = useState(false);
+
   const colorScheme = useColorScheme();
   const { user } = useAuth();
-  const [isMenuVisible, setIsMenuVisible] = useState(false);
-  const [refreshing, setRefreshing] = useState(false);
+  const { profile, isInitialLoading, isRefreshing, error, refreshProfile } = useUserProfile();
 
-  const { profile, loading, error } = useUserProfile();
-
-  const handleRefresh = async () => {
-    setRefreshing(true);
-    setRefreshing(false);
-  };
-
-  if (loading) {
+  if (isInitialLoading) {
     return (
       <SafeAreaView style={styles.container}>
         <View style={styles.loadingContainer}>
@@ -76,8 +69,8 @@ export default function ProfileScreen() {
         contentContainerStyle={styles.scrollContainer}
         refreshControl={
           <RefreshControl
-            refreshing={refreshing}
-            onRefresh={handleRefresh}
+            refreshing={isRefreshing}
+            onRefresh={refreshProfile}
             tintColor={Colors[colorScheme ?? "light"].tint}
           />
         }
@@ -142,7 +135,6 @@ export default function ProfileScreen() {
             </View>
           )}
         </ThemedView>
-
       </ScrollView>
 
       {/* SlideMenu */}
