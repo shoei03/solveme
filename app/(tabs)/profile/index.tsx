@@ -9,6 +9,7 @@ import {
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
+import { ErrorScreen } from "@/components/ErrorScreen";
 import { LoadingScreen } from "@/components/LoadingScreen";
 import { ThemedText } from "@/components/ThemedText";
 import { ThemedView } from "@/components/ThemedView";
@@ -36,21 +37,23 @@ export default function ProfileScreen() {
 
   if (error) {
     return (
-      <SafeAreaView style={styles.container}>
-        <View style={styles.errorContainer}>
-          <ThemedText>エラー: {error}</ThemedText>
-        </View>
-      </SafeAreaView>
+      <ErrorScreen
+        message={error}
+        showRetry={true}
+        onRetry={refreshProfile}
+        retryText="再試行"
+      />
     );
   }
 
   if (!user || !profile) {
     return (
-      <SafeAreaView style={styles.container}>
-        <View style={styles.errorContainer}>
-          <ThemedText>プロフィール情報が見つかりません</ThemedText>
-        </View>
-      </SafeAreaView>
+      <ErrorScreen
+        message="プロフィール情報が見つかりません"
+        showRetry={false}
+        onRetry={() => {}}
+        retryText="再試行"
+      />
     );
   }
 
