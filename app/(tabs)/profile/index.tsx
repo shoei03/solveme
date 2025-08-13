@@ -1,8 +1,7 @@
 import { Link } from "expo-router";
-import { useCallback, useEffect, useState } from "react";
+import { useState } from "react";
 import {
   ActivityIndicator,
-  Alert,
   Image,
   RefreshControl,
   ScrollView,
@@ -18,83 +17,24 @@ import { IconSymbol } from "@/components/ui/IconSymbol";
 import { Colors } from "@/constants/Colors";
 import { useAuth } from "@/contexts/AuthContext";
 import { useColorScheme } from "@/hooks/useColorScheme";
-import { authService } from "@/services/authService";
-import {
-  profileService,
-  type RecentActivity,
-  type UserStats,
-} from "@/services/profileService";
-import { UserProfile } from "@/types/auth/user";
 import { formatDate } from "@/utils/helpers";
 
 import { defaultMenuItems } from "./_components/index";
-import { ProfileStats } from "./_components/profile-stats";
 import { SlideMenu } from "./_components/slide-menu";
+import { useUserProfile } from "./_hooks/use-user-profile";
 
 export default function ProfileScreen() {
   const colorScheme = useColorScheme();
   const { user } = useAuth();
-  const [profile, setProfile] = useState<UserProfile | null>(null);
-  const [stats, setStats] = useState<UserStats | null>(null);
-  const [activities, setActivities] = useState<RecentActivity[]>([]);
   const [isMenuVisible, setIsMenuVisible] = useState(false);
-  const [loading, setLoading] = useState(true);
   const [refreshing, setRefreshing] = useState(false);
 
-  const loadProfileData = useCallback(async () => {
-    if (!user) return;
-
-    try {
-      const [profileData, statsData, activitiesData] = await Promise.all([
-        profileService.getUserProfile(user.uid),
-        profileService.getUserStats(user.uid),
-        profileService.getRecentActivity(user.uid, 10),
-      ]);
-
-      setProfile(profileData);
-      setStats(statsData);
-      setActivities(activitiesData);
-    } catch (error: unknown) {
-      console.error("Failed to load profile data:", error);
-      Alert.alert("エラー", "プロフィール情報の読み込みに失敗しました");
-    } finally {
-      setLoading(false);
-    }
-  }, [user]);
+  const { profile, loading, error } = useUserProfile();
 
   const handleRefresh = async () => {
     setRefreshing(true);
-    await loadProfileData();
     setRefreshing(false);
   };
-
-  const handleLogout = () => {
-    Alert.alert("ログアウト", "ログアウトしますか？", [
-      {
-        text: "キャンセル",
-        style: "cancel",
-      },
-      {
-        text: "ログアウト",
-        style: "destructive",
-        onPress: async () => {
-          try {
-            await authService.logOut();
-          } catch (error: unknown) {
-            const errorMessage =
-              error instanceof Error
-                ? error.message
-                : "ログアウトに失敗しました";
-            Alert.alert("ログアウトエラー", errorMessage);
-          }
-        },
-      },
-    ]);
-  };
-
-  useEffect(() => {
-    loadProfileData();
-  }, [loadProfileData]);
 
   if (loading) {
     return (
@@ -105,6 +45,16 @@ export default function ProfileScreen() {
             color={Colors[colorScheme ?? "light"].tint}
           />
           <ThemedText style={styles.loadingText}>読み込み中...</ThemedText>
+        </View>
+      </SafeAreaView>
+    );
+  }
+
+  if (error) {
+    return (
+      <SafeAreaView style={styles.container}>
+        <View style={styles.errorContainer}>
+          <ThemedText>エラー: {error}</ThemedText>
         </View>
       </SafeAreaView>
     );
@@ -139,21 +89,6 @@ export default function ProfileScreen() {
               プロフィール
             </ThemedText>
             <View style={styles.headerActions}>
-              <Link href={"/(settings)/account/edit"}>
-                <ThemedText>
-                  遷移
-                </ThemedText>
-              </Link>
-              <TouchableOpacity
-                style={[styles.headerButton, styles.logoutButton]}
-                onPress={handleLogout}
-              >
-                <IconSymbol
-                  name="rectangle.portrait.and.arrow.right"
-                  size={16}
-                  color="white"
-                />
-              </TouchableOpacity>
               <TouchableOpacity
                 style={[
                   styles.headerButton,
@@ -208,12 +143,6 @@ export default function ProfileScreen() {
           )}
         </ThemedView>
 
-        {/* 統計情報とアクティビティ */}
-        {stats && (
-          <ThemedView style={styles.statsSection}>
-            <ProfileStats stats={stats} activities={activities} />
-          </ThemedView>
-        )}
       </ScrollView>
 
       {/* SlideMenu */}
