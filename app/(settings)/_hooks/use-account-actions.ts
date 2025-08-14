@@ -3,6 +3,7 @@ import { useCallback } from "react";
 import { Alert } from "react-native";
 
 import type { MenuItemConfig } from "@/constants/menu-items";
+import { authService } from "@/services/authService";
 
 export const useAccountActions = () => {
   const handleLogout = useCallback(() => {
@@ -15,9 +16,7 @@ export const useAccountActions = () => {
         text: "ログアウト",
         style: "destructive",
         onPress: () => {
-          // TODO: ログアウト処理を実装
-          console.log("ログアウト処理");
-          // ログアウト後はタブスクリーンのindexに戻る
+          authService.logOut();
           router.replace("/(tabs)");
         },
       },
@@ -37,9 +36,7 @@ export const useAccountActions = () => {
           text: "削除",
           style: "destructive",
           onPress: () => {
-            // TODO: アカウント削除処理を実装
-            console.log("アカウント削除処理");
-            // アカウント削除後はログイン画面に戻る
+            authService.deleteAccount();
             router.push("/(tabs)");
           },
         },
