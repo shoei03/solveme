@@ -11,9 +11,9 @@ import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 import { Colors } from "@/constants/Colors";
 import type { MenuItemConfig } from "@/constants/menu-items";
+import { useSlideMenuAnimation } from "@/hooks/use-slide-menu-animation";
 import { useColorScheme } from "@/hooks/useColorScheme";
 
-import { useSlideMenuAnimation } from "../_hooks/use-slide-menu-animation";
 
 import { MenuContent } from "./menu";
 

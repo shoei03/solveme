@@ -1,7 +1,7 @@
 import { Stack } from "expo-router";
 import { SafeAreaView, StyleSheet, View } from "react-native";
 
-import { MenuItem } from "@/app/(tabs)/profile/_components/menu/menu-item";
+import { MenuItem } from "@/components/menu/menu-item";
 import { accountMenuItems } from "@/constants/menu-items";
 
 import { useAccountActions } from "./_hooks/use-account-actions";

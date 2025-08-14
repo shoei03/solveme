@@ -3,9 +3,9 @@ import { Tabs } from "expo-router";
 import { useState } from "react";
 import { TouchableOpacity } from "react-native";
 
+import { SlideMenu } from "@/components/slide-menu";
 import { defaultMenuItems } from "@/constants/menu-items";
 
-import { SlideMenu } from "./profile/_components/slide-menu";
 
 export default function TabLayout() {
   const [isMenuVisible, setIsMenuVisible] = useState(false);
