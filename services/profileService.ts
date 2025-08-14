@@ -10,8 +10,9 @@ import {
   updateDoc,
   where,
 } from "firebase/firestore";
-import { auth, db } from "../config/firebase";
-import { UserProfile } from "./authService";
+
+import { auth, db } from "@/config/firebase";
+import type { UserProfile } from "@/types/auth/user";
 
 export interface ProfileUpdateData {
   displayName?: string;
