@@ -15,7 +15,7 @@ export default function AccountScreen() {
         options={{
           title: "アカウント設定",
           headerShown: true,
-          headerBackTitle: "プロフィール",
+          headerBackTitle: "戻る",
         }}
       />
       <View style={styles.menuItems}>

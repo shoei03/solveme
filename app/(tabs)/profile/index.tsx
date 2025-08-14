@@ -1,10 +1,8 @@
-import { useState } from "react";
 import {
   Image,
   RefreshControl,
   ScrollView,
   StyleSheet,
-  TouchableOpacity,
   View,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -15,16 +13,13 @@ import { ThemedText } from "@/components/ThemedText";
 import { ThemedView } from "@/components/ThemedView";
 import { IconSymbol } from "@/components/ui/IconSymbol";
 import { Colors } from "@/constants/Colors";
-import { defaultMenuItems } from "@/constants/menu-items";
 import { useAuth } from "@/contexts/AuthContext";
 import { useColorScheme } from "@/hooks/useColorScheme";
 import { formatDate } from "@/utils/helpers";
 
-import { SlideMenu } from "./_components/slide-menu";
 import { useUserProfile } from "./_hooks/use-user-profile";
 
 export default function ProfileScreen() {
-  const [isMenuVisible, setIsMenuVisible] = useState(false);
 
   const colorScheme = useColorScheme();
   const { user } = useAuth();
@@ -69,30 +64,6 @@ export default function ProfileScreen() {
           />
         }
       >
-        {/* ヘッダー */}
-        <ThemedView style={styles.header}>
-          <View style={styles.headerContent}>
-            <ThemedText type="title" style={styles.headerTitle}>
-              プロフィール
-            </ThemedText>
-            <View style={styles.headerActions}>
-              <TouchableOpacity
-                style={[
-                  styles.headerButton,
-                  { backgroundColor: Colors[colorScheme ?? "light"].text },
-                ]}
-                onPress={() => setIsMenuVisible(true)}
-              >
-                <IconSymbol
-                  name="line.3.horizontal"
-                  size={16}
-                  color={Colors[colorScheme ?? "light"].background}
-                />
-              </TouchableOpacity>
-            </View>
-          </View>
-        </ThemedView>
-
         {/* プロフィール情報 */}
         <ThemedView style={styles.profileSection}>
           <View style={styles.profileHeader}>
@@ -131,13 +102,6 @@ export default function ProfileScreen() {
         </ThemedView>
       </ScrollView>
 
-      {/* SlideMenu */}
-      <SlideMenu
-        isVisible={isMenuVisible}
-        onClose={() => setIsMenuVisible(false)}
-        title="メニュー"
-        menuItems={defaultMenuItems}
-      />
     </SafeAreaView>
   );
 }

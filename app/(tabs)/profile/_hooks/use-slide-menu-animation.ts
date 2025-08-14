@@ -18,7 +18,7 @@ export const useSlideMenuAnimation = ({
 }: UseSlideMenuAnimationProps): UseSlideMenuAnimationReturn => {
   // スライドアニメーション用
   const slideAnimation = useRef(
-    new Animated.Value(Dimensions.get("window").width)
+    new Animated.Value(-Dimensions.get("window").width)
   ).current;
   // フェードイン・アウトのアニメーション用
   const opacityAnimation = useRef(new Animated.Value(0)).current;
@@ -49,7 +49,7 @@ export const useSlideMenuAnimation = ({
     } else {
       Animated.parallel([
         Animated.timing(slideAnimation, {
-          toValue: Dimensions.get("window").width,
+          toValue: -Dimensions.get("window").width,
           duration: 300,
           easing: Easing.in(Easing.cubic),
           useNativeDriver: true,

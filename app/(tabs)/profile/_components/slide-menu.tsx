@@ -104,13 +104,13 @@ const styles = StyleSheet.create({
   },
   slideMenu: {
     position: "absolute",
-    right: 0,
+    left: 0,
     top: 0,
     bottom: 0,
     width: 280,
     shadowColor: "#000",
     shadowOffset: {
-      width: -2,
+      width: 2,
       height: 0,
     },
     shadowOpacity: 0.25,
