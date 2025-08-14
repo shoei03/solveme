@@ -8,11 +8,24 @@ export const accountMenuItems: MenuItemConfig[] = [
     route: "/(settings)/account/edit",
   },
   {
+    id: "メールアドレス変更",
+    icon: "envelope",
+    label: "メールアドレス変更",
+    route: "/(settings)/account/change-email",
+  },
+  {
     id: "パスワード変更",
     icon: "lock",
     label: "パスワード変更",
-    route: "/(settings)/account/change",
+    route: "/(settings)/account/change-password",
   },
+  // TODO: 2段階認証の実装
+  // {
+  //   id: "2段階認証",
+  //   icon: "lock.rotation",
+  //   label: "2段階認証",
+  //   route: "/(settings)/account/edit",
+  // },
   {
     id: "ログアウト",
     icon: "rectangle.portrait.and.arrow.right",
