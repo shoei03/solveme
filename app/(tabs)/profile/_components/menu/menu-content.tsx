@@ -1,8 +1,8 @@
 import { StyleSheet, View } from "react-native";
 
 import { defaultMenuItems } from "@/constants/menu-items";
+import type { MenuItemConfig } from "@/constants/menu-items";
 
-import { type MenuItemConfig } from "./config";
 import { MenuHeader } from "./menu-header";
 import { MenuItem } from "./menu-item";
 

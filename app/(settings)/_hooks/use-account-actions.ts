@@ -2,7 +2,7 @@ import { router } from "expo-router";
 import { useCallback } from "react";
 import { Alert } from "react-native";
 
-import type { MenuItemConfig } from "@/app/(tabs)/profile/_components/menu/config";
+import type { MenuItemConfig } from "@/constants/menu-items";
 
 export const useAccountActions = () => {
   const handleLogout = useCallback(() => {

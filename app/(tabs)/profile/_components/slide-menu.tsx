@@ -10,11 +10,11 @@ import {
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 import { Colors } from "@/constants/Colors";
+import type { MenuItemConfig } from "@/constants/menu-items";
 import { useColorScheme } from "@/hooks/useColorScheme";
 
 import { useSlideMenuAnimation } from "../_hooks/use-slide-menu-animation";
 
-import type { MenuItemConfig } from "./menu";
 import { MenuContent } from "./menu";
 
 interface SlideMenuProps {

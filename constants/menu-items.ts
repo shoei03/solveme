@@ -1,4 +1,12 @@
-import type { MenuItemConfig } from "@/app/(tabs)/profile/_components/menu/config";
+import type { Href } from "expo-router";
+import type { SymbolViewProps } from "expo-symbols";
+
+export interface MenuItemConfig {
+  id: string;
+  icon: SymbolViewProps["name"];
+  label: string;
+  route: Href;
+}
 
 export const defaultMenuItems: MenuItemConfig[] = [
   {

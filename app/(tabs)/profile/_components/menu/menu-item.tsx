@@ -3,9 +3,9 @@ import { StyleSheet, TouchableOpacity } from "react-native";
 import { ThemedText } from "@/components/ThemedText";
 import { IconSymbol } from "@/components/ui/IconSymbol";
 import { Colors } from "@/constants/Colors";
+import type { MenuItemConfig } from "@/constants/menu-items";
 import { useColorScheme } from "@/hooks/useColorScheme";
 
-import type { MenuItemConfig } from "./config";
 
 interface MenuItemProps {
   item: MenuItemConfig;
