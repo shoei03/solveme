@@ -1,16 +1,18 @@
 import { router } from "expo-router";
-import { useEffect, useState } from "react";
+import { useCallback } from "react";
 import {
   Animated,
-  Dimensions,
   Modal,
   StyleSheet,
   TouchableWithoutFeedback,
   View,
 } from "react-native";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 import { Colors } from "@/constants/Colors";
 import { useColorScheme } from "@/hooks/useColorScheme";
+
+import { useSlideMenuAnimation } from "../_hooks/use-slide-menu-animation";
 
 import type { MenuItemConfig } from "./menu";
 import { MenuContent } from "./menu";
@@ -29,62 +31,61 @@ export const SlideMenu: React.FC<SlideMenuProps> = ({
   menuItems,
 }) => {
   const colorScheme = useColorScheme();
-  const [slideAnimation] = useState(
-    new Animated.Value(Dimensions.get("window").width)
+  const insets = useSafeAreaInsets();
+
+  const { slideAnimation, opacityAnimation, showModal } = useSlideMenuAnimation(
+    {
+      isVisible,
+    }
   );
 
-  useEffect(() => {
-    if (isVisible) {
-      Animated.timing(slideAnimation, {
-        toValue: 0,
-        duration: 300,
-        useNativeDriver: true,
-      }).start();
-    } else {
-      Animated.timing(slideAnimation, {
-        toValue: Dimensions.get("window").width,
-        duration: 300,
-        useNativeDriver: true,
-      }).start();
-    }
-  }, [isVisible, slideAnimation]);
-
-  const handleMenuOption = (route: MenuItemConfig["route"]) => {
-    onClose();
-    setTimeout(() => {
-      router.push(route);
-    }, 300);
-  };
+  const handleMenuOption = useCallback(
+    (route: MenuItemConfig["route"]) => {
+      onClose();
+      setTimeout(() => {
+        router.push(route);
+      }, 300);
+    },
+    [onClose]
+  );
 
   return (
     <Modal
-      visible={isVisible}
+      visible={showModal}
       transparent={true}
       animationType="none"
       onRequestClose={onClose}
     >
-      <TouchableWithoutFeedback onPress={onClose}>
-        <View style={styles.modalOverlay}>
-          <TouchableWithoutFeedback>
-            <Animated.View
-              style={[
-                styles.slideMenu,
-                {
-                  transform: [{ translateX: slideAnimation }],
-                  backgroundColor: Colors[colorScheme ?? "light"].background,
-                },
-              ]}
-            >
-              <MenuContent
-                onMenuItemPress={handleMenuOption}
-                onClose={onClose}
-                title={title}
-                menuItems={menuItems}
-              />
-            </Animated.View>
-          </TouchableWithoutFeedback>
-        </View>
-      </TouchableWithoutFeedback>
+      <Animated.View
+        style={[
+          styles.modalOverlay,
+          {
+            opacity: opacityAnimation,
+          },
+        ]}
+      >
+        <TouchableWithoutFeedback onPress={onClose}>
+          <View style={styles.overlayTouchArea} />
+        </TouchableWithoutFeedback>
+        <Animated.View
+          style={[
+            styles.slideMenu,
+            {
+              transform: [{ translateX: slideAnimation }],
+              backgroundColor: Colors[colorScheme ?? "light"].background,
+            },
+          ]}
+        >
+          <View style={[styles.menuContainer, { paddingTop: insets.top + 20 }]}>
+            <MenuContent
+              onMenuItemPress={handleMenuOption}
+              onClose={onClose}
+              title={title}
+              menuItems={menuItems}
+            />
+          </View>
+        </Animated.View>
+      </Animated.View>
     </Modal>
   );
 };
@@ -93,7 +94,13 @@ const styles = StyleSheet.create({
   modalOverlay: {
     flex: 1,
     backgroundColor: "rgba(0, 0, 0, 0.5)",
-    justifyContent: "flex-end",
+  },
+  overlayTouchArea: {
+    position: "absolute",
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
   },
   slideMenu: {
     position: "absolute",
@@ -101,8 +108,6 @@ const styles = StyleSheet.create({
     top: 0,
     bottom: 0,
     width: 280,
-    paddingTop: 50,
-    paddingHorizontal: 20,
     shadowColor: "#000",
     shadowOffset: {
       width: -2,
@@ -111,5 +116,10 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.25,
     shadowRadius: 10,
     elevation: 10,
+  },
+  menuContainer: {
+    flex: 1,
+    paddingHorizontal: 20,
+    paddingBottom: 20,
   },
 });
