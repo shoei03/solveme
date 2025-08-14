@@ -15,11 +15,11 @@ import { ThemedText } from "@/components/ThemedText";
 import { ThemedView } from "@/components/ThemedView";
 import { IconSymbol } from "@/components/ui/IconSymbol";
 import { Colors } from "@/constants/Colors";
+import { defaultMenuItems } from "@/constants/menu-items";
 import { useAuth } from "@/contexts/AuthContext";
 import { useColorScheme } from "@/hooks/useColorScheme";
 import { formatDate } from "@/utils/helpers";
 
-import { defaultMenuItems } from "./_components/index";
 import { SlideMenu } from "./_components/slide-menu";
 import { useUserProfile } from "./_hooks/use-user-profile";
 
