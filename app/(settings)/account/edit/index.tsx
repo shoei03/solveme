@@ -1,11 +1,10 @@
+import { Stack } from "expo-router";
 import { useCallback, useEffect, useState } from "react";
 import { StyleSheet, View } from "react-native";
 
 import { ThemedText } from "@/components/ThemedText";
 import { useAuth } from "@/contexts/AuthContext";
-import {
-  profileService,
-} from "@/services/profileService";
+import { profileService } from "@/services/profileService";
 import type { ProfileUpdateData, UserProfile } from "@/types/auth/user";
 
 import ProfileEdit from "./_components/profile-edit";
@@ -99,11 +98,20 @@ export default function AccountSettings() {
 
   // メイン表示
   return (
-    <ProfileEdit
-      profile={profile}
-      onSave={handleProfileUpdate}
-      onCancel={handleCancel}
-    />
+    <>
+      <Stack.Screen
+        options={{
+          title: "プロフィール編集",
+          headerShown: true,
+          headerBackTitle: "アカウント設定",
+        }}
+      />
+      <ProfileEdit
+        profile={profile}
+        onSave={handleProfileUpdate}
+        onCancel={handleCancel}
+      />
+    </>
   );
 }
 

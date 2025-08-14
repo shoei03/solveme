@@ -1,3 +1,4 @@
+import { Stack } from "expo-router";
 import {
   Alert,
   ScrollView,
@@ -26,6 +27,13 @@ export default function ChangeEmailScreen() {
 
   return (
     <ScrollView contentContainerStyle={styles.scrollContainer}>
+      <Stack.Screen
+        options={{
+          title: "メールアドレス変更",
+          headerShown: true,
+          headerBackTitle: "アカウント設定",
+        }}
+      />
       <View style={styles.formContainer}>
         <ThemedText type="title" style={styles.title}>
           メールアドレスを忘れた場合

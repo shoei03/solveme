@@ -1,3 +1,4 @@
+import { Stack } from "expo-router";
 import {
   KeyboardAvoidingView,
   Platform,
@@ -20,6 +21,13 @@ export default function PasswordChangeScreen() {
       style={styles.container}
       behavior={Platform.OS === "ios" ? "padding" : "height"}
     >
+      <Stack.Screen
+        options={{
+          title: "パスワード変更",
+          headerShown: true,
+          headerBackTitle: "アカウント設定",
+        }}
+      />
       <ScrollView contentContainerStyle={styles.scrollContainer}>
         <View style={styles.formContainer}>
           <ThemedText type="title" style={styles.title}>

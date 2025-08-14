@@ -1,3 +1,4 @@
+import { Stack } from "expo-router";
 import { SafeAreaView, StyleSheet, View } from "react-native";
 
 import { MenuItem } from "@/app/(tabs)/profile/_components/menu/menu-item";
@@ -10,6 +11,13 @@ export default function AccountScreen() {
 
   return (
     <SafeAreaView style={styles.container}>
+      <Stack.Screen
+        options={{
+          title: "アカウント設定",
+          headerShown: true,
+          headerBackTitle: "プロフィール",
+        }}
+      />
       <View style={styles.menuItems}>
         {accountMenuItems.map((item) => (
           <MenuItem
